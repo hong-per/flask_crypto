@@ -1,7 +1,6 @@
 from flask import Flask
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
-from .views import main_views
 
 import config
 
@@ -19,6 +18,7 @@ def create_app():
     from . import models
 
     # Blueprint
+    from .views import main_views
     app.register_blueprint(main_views.bp)
 
     return app
