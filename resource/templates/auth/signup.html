@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}
+Signup
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h5 class="my-3 border-bottom pb-2">Create Account</h5>
+    <form method="post">
+        {{ form.csrf_token }}
+        {% include "form_errors.html" %}
+        <div class="mb-3">
+            <label for="name">Name</label>
+            <input type="text" class="form-control" name="name" id="name"
+                   value="{{ form.name.data or '' }}">
+        </div>
+        <div class="mb-3">
+            <label for="email">Email</label>
+            <input type="text" class="form-control" name="email" id="email"
+                   value="{{ form.email.data or '' }}">
+        </div>
+        <div class="mb-3">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" name="password" id="password"
+                   value="{{ form.password.data or '' }}">
+        </div>
+        <div class="mb-3">
+            <label for="password_confirm">Password Confirm</label>
+            <input type="password" class="form-control" name="password_confirm" id="password_confirm"
+                   value="{{ form.password_confirm.data or '' }}">
+        </div>
+        <button type="submit" class="btn btn-primary">Create Account</button>
+    </form>
+</div>
+{% endblock %}
