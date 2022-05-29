@@ -1,0 +1,37 @@
+<!-- navigation bar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Resource</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      {% if g.user %}
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          {% for region in regions %}
+            <li class="nav-item">
+                <a class="nav-link" href="#">{{ region.name }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+        <ul class="navbar-nav">
+          <div class="nav-item">
+            <a class="nav-link" href="#">{{ g.user.name }}</a>
+          </div>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('auth.logout') }}">Logout</a>
+          </li>
+         </ul>
+      {% else %}
+        <ul class="navbar-nav">
+            <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('auth.login') }}">Login</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('auth.signup') }}">Signup</a>
+            </li>
+        </ul>
+      {% endif %}
+    </div>
+  </nav>
