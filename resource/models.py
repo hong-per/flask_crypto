@@ -7,10 +7,16 @@ class User(db.Model):
     email = db.Column(db.String(100), nullable=False, unique=True)
     password = db.Column(db.String(100), nullable=False)
 
+    def __repr__(self):
+        return f'User {self.name}'
+
 
 class Region(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False, unique=True)
+
+    def __repr__(self):
+        return f'Region {self.name}'
 
 
 class Server(db.Model):
@@ -24,6 +30,9 @@ class Server(db.Model):
     memory = db.Column(db.Integer(), nullable=False)
     instance = db.Column(db.Integer(), nullable=False)
 
+    def __repr__(self):
+        return f'Server {self.host}'
+
 
 class Usage(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -36,3 +45,6 @@ class Usage(db.Model):
     instance_usage = db.Column(db.Integer(), nullable=False)
     note = db.Column(db.Text(), nullable=True)
     record_date = db.Column(db.DateTime(), nullable=False)
+
+    def __repr__(self):
+        return f'Usage {self.server} in {self.record_date}'
