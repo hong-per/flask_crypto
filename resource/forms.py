@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, TextAreaField, PasswordField, EmailField
+from wtforms import StringField, TextAreaField, PasswordField, EmailField, IntegerField
 from wtforms.validators import DataRequired, Length, EqualTo, Email
 
 
@@ -18,3 +18,10 @@ class UserLoginForm(FlaskForm):
         DataRequired(), Length(min=3, max=25)])
     password = PasswordField('Password', validators=[
                              DataRequired(), Length(min=6)])
+
+
+class ServerCreateForm(FlaskForm):
+    host = StringField('Host', validator=[DataRequired()])
+    cpu = IntegerField('CPU', validator=[DataRequired()])
+    memory = IntegerField('Memory', validator=[DataRequired()])
+    instance = IntegerField('Instance', validator=[DataRequired()])
