@@ -7,8 +7,9 @@
 {% block content %}
 <div class="container-fluid">
     <h1>{{ region.name }}</h1>
+    {% include 'modal/add_server.html' %}
     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-        <button class="btn btn-primary" type="button">Add Server</button>
+        <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#modal_add_server-{{ region.id }}">Add Server</button>
     </div>
     <table class="table table-hover table-striped table-dark">
         <thead>
