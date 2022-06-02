@@ -1,0 +1,55 @@
+<style>
+    .modal-content {
+        background-color:dimgrey
+    }
+</style>
+
+<div class="modal fade" id="modal_add_server-{{ region.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add Server for {{ region.name }}</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form method="post" class="my-3">
+            {{ form.csrf_token }}
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="host" class="col-form-label">Host</label>
+              <input type="text" class="form-control" id="host" name="host">
+            </div>
+            <div class="mb-3">
+              <label for="cpu" class="col-form-label">CPU</label>
+              <input type="text" class="form-control" id="cpu" name="cpu">
+            </div>
+            <div class="mb-3">
+              <label for="memory" class="col-form-label">Memory</label>
+              <input type="text" class="form-control" id="memory" name="memory">
+            </div>
+            <div class="mb-3">
+              <label for="instance" class="col-form-label">Instance</label>
+              <input type="text" class="form-control" id="instance" name="instance">
+            </div>
+          </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Confirm</button>
+            </div>
+
+            <!-- Error -->
+            {% if form.errors %}
+            <div class="alert alert-danger" role="alert">
+                {% for field, errors in form.errors.items() %}
+                <strong>{{ form[field].label }}</strong>
+                <ul>
+                    {% for error in errors %}
+                    <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </form>
+      </div>
+    </div>
+  </div>
