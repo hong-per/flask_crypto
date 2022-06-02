@@ -21,7 +21,7 @@ class UserLoginForm(FlaskForm):
 
 
 class ServerCreateForm(FlaskForm):
-    host = StringField('Host', validator=[DataRequired()])
-    cpu = IntegerField('CPU', validator=[DataRequired()])
-    memory = IntegerField('Memory', validator=[DataRequired()])
-    instance = IntegerField('Instance', validator=[DataRequired()])
+    host = StringField('Host', validators=[DataRequired()])
+    cpu = IntegerField('CPU', validators=[DataRequired()])
+    memory = IntegerField('Memory', validators=[DataRequired()])
+    instance = IntegerField('Instance', validators=[DataRequired()])
