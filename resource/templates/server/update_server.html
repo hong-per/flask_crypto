@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ server.host }}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h5 class="my-3 border-bottom pb-2">Update {{ server.host }}</h5>
+    <form method="post" class="my-3">
+        {{ form.csrf_token }}
+        <div class="mb-3">
+            <label for="host" class="col-form-label">Host</label>
+            <input type="text" class="form-control" name="host" id="host" value="{{ server.host }}">
+        </div>
+        <div class="mb-3">
+            <label for="cpu" class="col-form-label">CPU</label>
+            <input type="text" class="form-control" name="cpu" id="cpu" value="{{ server.cpu }}">
+        </div>
+        <div class="mb-3">
+            <label for="memory" class="col-form-label">Memory</label>
+            <input type="text" class="form-control" name="memory" id="memory" value="{{ server.memory }}">
+        </div>
+        <div class="mb-3">
+            <label for="instance" class="col-form-label">Instance</label>
+            <input type="text" class="form-control" name="instance" id="instance" value="{{ server.instance }}">
+        </div>
+        <button type="submit" class="btn btn-primary">Confirm</button>
+
+        <!-- Error -->
+        {% if form.errors %}
+        <div class="alert alert-danger" role="alert">
+            {% for field, errors in form.errors.items() %}
+            <strong>{{ form[field].label }}</strong>
+            <ul>
+                {% for error in errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </form>
+</div>
+{% endblock %}
