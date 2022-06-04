@@ -25,3 +25,10 @@ class ServerCreateForm(FlaskForm):
     cpu = IntegerField('CPU', validators=[DataRequired()])
     memory = IntegerField('Memory', validators=[DataRequired()])
     instance = IntegerField('Instance', validators=[DataRequired()])
+
+
+class ServerUpdateForm(FlaskForm):
+    host = StringField('Host', validators=[DataRequired()])
+    cpu = IntegerField('CPU', validators=[DataRequired()])
+    memory = IntegerField('Memory', validators=[DataRequired()])
+    instance = IntegerField('Instance', validators=[DataRequired()])
