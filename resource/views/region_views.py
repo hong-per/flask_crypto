@@ -12,7 +12,10 @@ def detail(region_id):
     form = ServerForm()
     regions = Region.query.all()
     region = Region.query.get_or_404(region_id)
+
+    page = request.args.get('page', type=int, default=1)
     servers = Server.query.filter_by(region_id=region_id)
+    servers = servers.paginate(page, per_page=10)
 
     # create server
     if request.method == 'POST' and form.validate_on_submit():
