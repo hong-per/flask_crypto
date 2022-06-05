@@ -7,7 +7,7 @@
 {% block content %}
 <div class="container-fluid">
     <h1>{{ region.name }}</h1>
-    {% include 'modal/add_server.html' %}
+    {% include 'region/add_server.html' %}
     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
         <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#modal_add_server-{{ region.id }}">Add Server</button>
     </div>
@@ -38,10 +38,8 @@
                 <a class="btn btn-secondary" href="{{ url_for('server.update', server_id=server.id) }}" role="button">Update</a>
             </td>
             <td>
-                <form method="post" class="my-3">
-                <a class="btn btn-outline-danger" href="{{ url_for('server.delete', server_id=server.id) }}" role="button">Delete</a>
-                <!-- <button type="button" class="btn btn-outline-danger">Delete</button> -->
-                </form>
+                {% include 'server/delete_server.html' %}
+                <button class="btn btn-outline-danger" type="button" data-bs-toggle="modal" data-bs-target="#modal_delete_server-{{ server.id }}">Delete</button>
             </td>
         </tr>
         {% endfor %}
