@@ -44,7 +44,10 @@ def delete(server_id):
     server = Server.query.get_or_404(server_id)
     region_id = server.region_id
 
-    db.session.delete(server)
-    db.session.commit()
+    if server:
+        db.session.delete(server)
+        db.session.commit()
+    else:
+        flash('server does not exist!')
 
     return redirect(url_for('region.detail', region_id=region_id))
