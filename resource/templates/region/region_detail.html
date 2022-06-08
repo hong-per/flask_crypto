@@ -7,15 +7,21 @@
 {% block content %}
 <div class="container-fluid">
     <h1>{{ region.name }}</h1>
-    <div>
-        <input type="date" id="date" name="date" value="2022-06-01">
-    </div>
+    <form>
+        <label for="date">Select the record date:
+          <input type="date" id="date" name="date" value="2022-01-01">
+        </label>
+        <p>
+          <button>Submit</button>
+        </p>
+      </form>
     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
         <a class="btn btn-primary" href="{{ url_for('server.create', region_id=region.id) }}" role="button">Add Server</a>
     </div>
     <table class="table table-hover table-striped table-dark">
         <thead>
         <tr>
+            <th scope="col">No</th>
             <th scope="col">Host</th>
             <th scope="col">CPU Used</th>
             <th scope="col">CPU Total</th>
@@ -29,6 +35,7 @@
         <tbody class="table-group-divider">
             {% for server in servers.items %}
         <tr>
+            <td>{{ ((servers.page-1) * servers.per_page) + loop.index }}</td>
             <td>{{ server.host }}</td>
             <td>{{ server.cpu }}</td>
             <td>{{ server.cpu }}</td>
