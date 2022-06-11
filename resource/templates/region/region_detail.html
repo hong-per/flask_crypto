@@ -7,14 +7,15 @@
 {% block content %}
 <div class="container-fluid">
     <h1>{{ region.name }}</h1>
-    <form>
+    <form method="GET" class="my-3">
+        {{ form.csrf_token }}
         <label for="date">Select the record date:
           <input type="date" id="date" name="date" value="2022-01-01">
         </label>
         <p>
-          <button>Submit</button>
+          <button type="submit" class="btn btn-outline-primary">Submit</button>
         </p>
-      </form>
+    </form>
     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
         <a class="btn btn-primary" href="{{ url_for('server.create', region_id=region.id) }}" role="button">Add Server</a>
     </div>

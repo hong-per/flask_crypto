@@ -48,3 +48,8 @@ class Usage(db.Model):
 
     def __repr__(self):
         return f'Usage {self.server} in {self.record_date}'
+
+# use date format to save record date
+# ex) date(2022, 6, 1)
+# user datetime format when searching
+# ex) Usage.query.filter_by(record_date=datetime(2022, 6, 1, 0, 0)).first()
