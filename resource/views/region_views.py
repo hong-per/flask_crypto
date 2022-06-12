@@ -9,7 +9,7 @@ from datetime import date, datetime
 bp = Blueprint('region', __name__, url_prefix='/region')
 
 
-@bp.route('/<int:region_id>/', methods=('GET', 'POST'))
+@bp.route('/<int:region_id>/', methods=["GET"])
 def detail(region_id):
     regions = Region.query.all()
     region = Region.query.get_or_404(region_id)
@@ -21,11 +21,6 @@ def detail(region_id):
     form = DateForm()
 
     if request.method == 'GET' and form.validate_on_submit():
-        date = form.date.data
-        usages = Usage.query.filter_by(record_date=date)
-        if usages:
-            flash(f'Record usages for {date}')
-        else:
-            flash(f'There is no record for {date}')
+        record_date = form.date.data
 
     return render_template('region/region_detail.html', regions=regions, region=region, servers=servers, form=form)
