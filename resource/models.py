@@ -29,6 +29,9 @@ class Region(db.Model):
     def __repr__(self):
         return f'Region {self.name}'
 
+    def __init__(self, name: str):
+        self.name == name
+
 
 class Server(db.Model):
     id = db.Column(db.Integer, primary_key=True)
