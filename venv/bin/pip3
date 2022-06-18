@@ -1,4 +1,4 @@
-#!/Users/sawon_hongspice-factory.co.jp/flask_api/venv/bin/python3.9
+#!/Users/sawon_hongspice-factory.co.jp/flask_resource/venv/bin/python3
 # -*- coding: utf-8 -*-
 import re
 import sys
