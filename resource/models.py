@@ -1,4 +1,5 @@
 from resource import db
+# from werkzeug.security import generate_password_hash, check_password_hash
 
 
 class User(db.Model):
@@ -10,6 +11,16 @@ class User(db.Model):
     def __repr__(self):
         return f'User {self.name}'
 
+    def __init__(self, name: str, email: str, password: str):
+        self.name = name
+        self.email = email
+        self.password = password
+        # self.password = self._generate_password_hash(password_plaintext)
+
+    # @staticmethod
+    # def _generate_password_hash(password_plaintext: str):
+    #     return generate_password_hash(password_plaintext)
+
 
 class Region(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -17,6 +28,9 @@ class Region(db.Model):
 
     def __repr__(self):
         return f'Region {self.name}'
+
+    def __init__(self, name: str):
+        self.name == name
 
 
 class Server(db.Model):
@@ -48,3 +62,8 @@ class Usage(db.Model):
 
     def __repr__(self):
         return f'Usage {self.server} in {self.record_date}'
+
+# use date format to save record date
+# ex) date(2022, 6, 1)
+# user datetime format when searching
+# ex) Usage.query.filter_by(record_date=datetime(2022, 6, 1, 0, 0)).first()
