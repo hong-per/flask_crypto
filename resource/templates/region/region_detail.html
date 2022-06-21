@@ -24,27 +24,19 @@
         <tr>
             <th scope="col">No</th>
             <th scope="col">Host</th>
-            <th scope="col">CPU Used</th>
             <th scope="col">CPU Total</th>
-            <th scope="col">Memory Used</th>
             <th scope="col">Memory Total</th>
-            <th scope="col">Instance Used</th>
             <th scope="col">Instance Total</th>
             <th scope="col"></th>
         </tr>
         </thead>
         <tbody class="table-group-divider">
             {% for server in servers.items %}
-                {% for log in server.logs %}
-                    {% if log.record_date == record_date %}
         <tr>
             <td>{{ ((servers.page-1) * servers.per_page) + loop.index }}</td>
             <td>{{ server.host }}</td>
-            <td>{{ log.cpu_usage }}</td>
             <td>{{ server.cpu }}</td>
-            <td>{{ log.memory_usage }}</td>
             <td>{{ server.memory }}</td>
-            <td>{{ log.instance_usage }}</td>
             <td>{{ server.instance }}</td>
             <td>
                 <a class="btn btn-secondary" href="{{ url_for('server.update', server_id=server.id) }}" role="button">Update</a>
@@ -54,11 +46,10 @@
                 <button class="btn btn-outline-danger" type="button" data-bs-toggle="modal" data-bs-target="#modal_delete_server-{{ server.id }}">Delete</button>
             </td>
         </tr>
-                {% endif %}
-            {% endfor %}
         {% endfor %}
         </tbody>
     </table>
+
     <!-- Paginate -->
     <ul class="pagination justify-content-end">
         <!-- prev page -->
