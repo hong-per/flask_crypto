@@ -1,5 +1,4 @@
 from resource import db
-# from werkzeug.security import generate_password_hash, check_password_hash
 
 
 class User(db.Model):
@@ -15,11 +14,6 @@ class User(db.Model):
         self.name = name
         self.email = email
         self.password = password
-        # self.password = self._generate_password_hash(password_plaintext)
-
-    # @staticmethod
-    # def _generate_password_hash(password_plaintext: str):
-    #     return generate_password_hash(password_plaintext)
 
 
 class Region(db.Model):
