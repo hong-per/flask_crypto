@@ -9,7 +9,6 @@ local_url = "http://127.0.0.1:5000"
 
 def test_request_example(client):
     response = client.get(f"{local_url}/auth/login/")
-    # assert b"<h5>Login</h5>" in response.data
     assert response.status_code == 200
 
 
