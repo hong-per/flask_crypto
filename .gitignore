@@ -12,3 +12,5 @@ htmlcov/
 dist/
 build/
 *.egg-info/
+
+*.cpython-39.pyc
