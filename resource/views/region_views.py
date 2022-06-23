@@ -4,7 +4,7 @@ from resource import db
 from resource.models import Region, Server, Usage
 from resource.forms import DateForm
 
-from datetime import date, datetime
+import datetime
 
 bp = Blueprint('region', __name__, url_prefix='/region')
 
@@ -20,7 +20,21 @@ def detail(region_id):
 
     form = DateForm()
 
-    if request.method == 'GET' and form.validate_on_submit():
+    if form.validate_on_submit():
         record_date = form.date.data
 
     return render_template('region/region_detail.html', regions=regions, region=region, servers=servers, form=form)
+
+
+@bp.route('/<int:region_id>/usage', methods=["GET"])
+def usage_detail(region_id):
+    regions = Region.query.all()
+    region = Region.query.get_or_404(region_id)
+    servers = Server.query.filter_by(region_id=region_id)
+
+    date = request.args.get('date').split('-')
+    record_date = datetime.datetime(
+        int(date[0]), int(date[1]), int(date[2]), 0, 0
+    )
+
+    return render_template('region/region_usage_detail.html', regions=regions, region=region, servers=servers, date=date, record_date=record_date)
