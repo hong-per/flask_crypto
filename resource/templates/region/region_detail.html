@@ -24,7 +24,7 @@
             <th scope="col">Host</th>
             <th scope="col">CPU Total</th>
             <th scope="col">Memory Total</th>
-            <th scope="col">Instance Total</th>
+            <th scope="col">Storage Total</th>
             <th scope="col"></th>
         </tr>
         </thead>
@@ -35,7 +35,7 @@
             <td>{{ server.host }}</td>
             <td>{{ server.cpu }}</td>
             <td>{{ server.memory }}</td>
-            <td>{{ server.instance }}</td>
+            <td>{{ server.storage }}</td>
             <td>
                 <a class="btn btn-secondary" href="{{ url_for('server.update', server_id=server.id) }}" role="button">Update</a>
             </td>

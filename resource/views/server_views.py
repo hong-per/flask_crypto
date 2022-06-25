@@ -14,7 +14,7 @@ def create(region_id):
 
     if request.method == 'POST' and form.validate_on_submit():
         server = Server(region_id=region_id, host=form.host.data, cpu=form.cpu.data,
-                        memory=form.memory.data, instance=form.instance.data)
+                        memory=form.memory.data, storage=form.storage.data)
         db.session.add(server)
         db.session.commit()
         return redirect(url_for('region.detail', region_id=region_id))
@@ -32,7 +32,7 @@ def update(server_id):
         server.host = form.host.data
         server.cpu = form.cpu.data
         server.memory = form.memory.data
-        server.instance = form.instance.data
+        server.storage = form.storage.data
         db.session.commit()
         return redirect(url_for('region.detail', region_id=region_id))
 
