@@ -23,9 +23,6 @@ class Region(db.Model):
     def __repr__(self):
         return f'Region {self.name}'
 
-    def __init__(self, name: str):
-        self.name == name
-
 
 class Server(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -36,7 +33,7 @@ class Server(db.Model):
     host = db.Column(db.String(100), nullable=False, unique=True)
     cpu = db.Column(db.Integer(), nullable=False)
     memory = db.Column(db.Integer(), nullable=False)
-    instance = db.Column(db.Integer(), nullable=False)
+    storage = db.Column(db.Integer(), nullable=False)
 
     def __repr__(self):
         return f'Server {self.host}'
@@ -50,7 +47,7 @@ class Usage(db.Model):
         'logs', cascade='all, delete-orphan'))
     cpu_usage = db.Column(db.Integer(), nullable=False)
     memory_usage = db.Column(db.Integer(), nullable=False)
-    instance_usage = db.Column(db.Integer(), nullable=False)
+    storage_usage = db.Column(db.Integer(), nullable=False)
     note = db.Column(db.Text(), nullable=True)
     record_date = db.Column(db.DateTime(), nullable=False)
 
