@@ -1,4 +1,91 @@
-<h1>{{ region }}</h1>
-<h1>{{ servers[0].logs }}</h1>
-<h1>{{ date }}</h1>
-<h1>{{ record_date }}</h1>
+{% extends "base.html" %}
+
+{% block title %}
+{{ region.name }} usage
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1>{{ region.name }} usage in {{ record_date }}</h1>
+    <form action="{{ url_for('region.usage_detail', region_id=region.id) }}" class="my-3">
+        {{ form.csrf_token }}
+        <label for="date">Select the record date:
+          <input type="date" id="date" name="date" value="2022-01-01">
+          <button type="submit" class="btn btn-outline-primary">Submit</button>
+        </label>
+    </form>
+    <table class="table table-hover table-striped table-dark">
+        <thead>
+        <tr>
+            <th scope="col">No</th>
+            <th scope="col">Host</th>
+            <th scope="col">CPU Usage</th>
+            <th scope="col">CPU Total</th>
+            <th scope="col">Memory Usage</th>
+            <th scope="col">Memory Total</th>
+            <th scope="col">Storage Usage</th>
+            <th scope="col">Storage Total</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody class="table-group-divider">
+            {% for server in servers.items %}
+        <tr>
+            <td>{{ ((servers.page-1) * servers.per_page) + loop.index }}</td>
+            <td>{{ server.host }}</td>
+            <td>{{ server.cpu }}</td>
+            <td>{{ server.cpu }}</td>
+            <td>{{ server.memory }}</td>
+            <td>{{ server.memory }}</td>
+            <td>{{ server.storage }}</td>
+            <td>{{ server.storage }}</td>
+            <td>
+                <a class="btn btn-secondary" href="{{ url_for('server.update', server_id=server.id) }}" role="button">Update</a>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Paginate -->
+    <ul class="pagination justify-content-end">
+        <!-- prev page -->
+        {% if servers.has_prev %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ servers.prev_num }}">prev</a>
+            </li>
+        {% else %}
+            <li class="page-item disabled">
+                <a class="page-link" tabindex="-1" aria-disabled="true" href="javascript:void(0)">Previous</a>
+            </li>
+        {% endif %}
+        {% for page_num in servers.iter_pages() %}
+            {% if page_num %}
+                {% if page_num != servers.page %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a>
+                    </li>
+                {% else %}
+                    <li class="page-item active" aria-current="page">
+                        <a class="page-link" href="javascript:void(0)">{{ page_num }}</a>
+                    </li>
+                {% endif %}
+            {% else %}
+                <li class="disabled">
+                    <a class="page-link" href="javascript:void(0)">...</a>
+                </li>
+            {% endif %}
+        {% endfor %}
+        <!-- next page -->
+        {% if servers.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ servers.next_num }}">Next</a>
+            </li>
+        {% else %}
+            <li class="page-item disabled">
+                <a class="page-link" tabindex="-1" aria-disabled="true" href="javascript:void(0)">Next</a>
+            </li>
+        {% endif %}
+    </ul>
+</div>
+{% endblock %}
