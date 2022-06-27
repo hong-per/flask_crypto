@@ -2,6 +2,8 @@ from resource import db
 
 
 class User(db.Model):
+    __tablename__ = 'user'
+
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False, unique=True)
     email = db.Column(db.String(100), nullable=False, unique=True)
@@ -17,6 +19,8 @@ class User(db.Model):
 
 
 class Region(db.Model):
+    __tablename__ = 'region'
+
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False, unique=True)
 
@@ -25,6 +29,8 @@ class Region(db.Model):
 
 
 class Server(db.Model):
+    __tablename__ = 'server'
+
     id = db.Column(db.Integer, primary_key=True)
     region_id = db.Column(db.Integer(), db.ForeignKey(
         'region.id'))
@@ -40,6 +46,8 @@ class Server(db.Model):
 
 
 class Usage(db.Model):
+    __tablename__ = 'usage'
+
     id = db.Column(db.Integer, primary_key=True)
     server_id = db.Column(db.Integer(), db.ForeignKey(
         'server.id'))
