@@ -2,6 +2,7 @@ from flask import Flask
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import MetaData
+from flask_seeder import FlaskSeeder
 
 import config
 
@@ -25,6 +26,10 @@ def create_app():
     db.init_app(app)
     migrate.init_app(app, db, render_as_batch=True)
     from . import models
+
+    # Seed
+    seeder = FlaskSeeder()
+    seeder.init_app(app, db)
 
     # Blueprint
     from .views import main_views, auth_views, region_views, server_views
