@@ -1,20 +1,6 @@
 from resource import db
+from resource.models import User
 from flask_seeder import Seeder, Faker, generator
-
-# SQLAlchemy database model
-
-
-class User(db.Model):
-    def __init__(self, id=None, name=None, email=None, password=None):
-        self.id = id
-        self.name = name
-        self.email = email
-        self.password = password
-
-    def __str__(self):
-        return "ID=%d, Name=%s, Email=%s, Password=%s" % (self.id, self.name, self.email, self.password)
-
-# All seeders inherit from Seeder
 
 
 class UserSeeder(Seeder):
@@ -25,7 +11,6 @@ class UserSeeder(Seeder):
         faker = Faker(
             cls=User,
             init={
-                "id": generator.Sequence(start=4),
                 "name": generator.Name(),
                 "email": generator.Name(),
                 "password": generator.Name()
