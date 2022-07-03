@@ -1,21 +1,16 @@
 from resource import db
 from resource.models import Region
-from flask_seeder import Seeder, Faker, generator
+from flask_seeder import Seeder
 
 
 class RegionSeeder(Seeder):
 
     # run() will be called by Flask-Seeder
     def run(self):
-        # Create a new Faker and tell it how to create Region objects
-        faker = Faker(
-            cls=Region,
-            init={
-                "name": generator.Name()
-            }
-        )
+        regions = ['east', 'west', 'south', 'north']
 
-        # Create 5 regions
-        for region in faker.create(5):
+        # Create 4 regions
+        for region in regions:
             print("Adding region: %s" % region)
-            self.db.session.add(region)
+            seed_region = Region(name=region)
+            db.session.add(seed_region)
