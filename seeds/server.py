@@ -1,25 +1,22 @@
 from resource import db
 from resource.models import Server
-from flask_seeder import Seeder, Faker, generator
+from flask_seeder import Seeder
 
 
 class ServerSeeder(Seeder):
 
     # run() will be called by Flask-Seeder
     def run(self):
-        # Create a new Faker and tell it how to create Server objects
-        faker = Faker(
-            cls=Server,
-            init={
-                "region_id": generator.Integer(start=1, end=8),
-                "host": generator.Name(),
-                "cpu": generator.Integer(start=4, end=12),
-                "memory": generator.Integer(start=16, end=64),
-                "storage": generator.Integer(start=500, end=1000)
-            }
-        )
+        regions = ['east', 'west', 'south', 'north']
 
-        # Create 5 servers
-        for server in faker.create(5):
-            print("Adding server: %s" % server)
-            self.db.session.add(server)
+        # Create 10 servers for each region
+        for region in regions:
+            for server_num in range(1, 11):
+                seed_server = Server(
+                    region_id=(regions.index(region) + 1),
+                    host=f"{region}{server_num}",
+                    cpu=12,
+                    memory=64,
+                    storage=1000
+                )
+                db.session.add(seed_server)
