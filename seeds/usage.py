@@ -1,28 +1,27 @@
 from resource import db
-from resource.models import Usage
+from resource.models import Server, Usage
 from datetime import datetime
-from flask_seeder import Seeder, Faker, generator
+from flask_seeder import Seeder
+import random
+from faker import Faker
 
 
 class UsageSeeder(Seeder):
 
     # run() will be called by Flask-Seeder
     def run(self):
-        # Create a new Faker and tell it how to create Usage objects
-        faker = Faker(
-            cls=Usage,
-            init={
-                "server_id": generator.Integer(start=1, end=8),
-                "cpu_usage": generator.Integer(start=4, end=12),
-                "memory_usage": generator.Integer(start=16, end=64),
-                "storage_usage": generator.Integer(start=500, end=1000),
-                "note": generator.Name(),
-                "record_date": datetime(2022, 1, 1, 0, 0)
 
-            }
-        )
+        fake = Faker()
 
-        # Create 5 usages
-        for usage in faker.create(5):
-            print("Adding usage: %s" % usage)
-            self.db.session.add(usage)
+        # Create usages for each server from 1st Jan to 1st June
+        for server in range(1, 41):
+            for month in range(1, 6):
+                seed_usage = Usage(
+                    server_id=server,
+                    cpu_usage=random.randint(1, 12),
+                    memory_usage=random.randint(1, 64),
+                    storage_usage=random.randint(1, 1000),
+                    note=fake.sentence(),
+                    record_date=datetime(2022, month, 1, 0, 0)
+                )
+                db.session.add(seed_usage)
