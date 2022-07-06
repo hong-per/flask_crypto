@@ -11,12 +11,30 @@ bp = Blueprint('usage', __name__, url_prefix='/usage')
 
 @bp.route('create/region<int:region_id>', methods=('GET', 'POST'))
 def create(region_id):
-    region = region_id
+    # servers = Server.query.filter_by(region_id=region_id)
+    region = Region.query.filter_by(id=region_id).first()
+    servers = region.servers
+
     # date = request.args.get('record_date')[:10].split('-')
     # record_date = datetime(int(date[0]), int(date[1]), int(date[2]), 0, 0)
     record_date = request.args.get('record_date')
 
-    # form = UsageForm()
+    form = UsageForm()
+
+    if request.method == 'POST' and form.validate_on_submit():
+        for server in servers:
+            usage = Usage(
+                server_id=server.id,
+                cpu_usage=form.cpu.date,
+                memory_usage=form.memory.data,
+                storage=form.storage.data,
+                record_date=record_date
+            )
+            db.session.add(usage)
+        db.session.commit()
+
+        return redirect(url_for('region.usage_detail', region_id=region_id))
+
     # region = Region.query.get_or_404(region_id)
 
     # if request.method == 'POST' and form.validate_on_submit():
@@ -26,7 +44,7 @@ def create(region_id):
     #     db.session.commit()
     #     return redirect(url_for('region.detail', region_id=region_id))
 
-    return render_template('usage/add_usage.html', region=region, record_date=record_date)
+    return render_template('usage/add_usage.html', servers=servers, record_date=record_date, form=form)
 
 
 # @bp.route('update/<int:server_id>/', methods=('GET', 'POST'))
