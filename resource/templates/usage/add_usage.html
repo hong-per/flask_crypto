@@ -1,2 +1,46 @@
-{{ region }}
+{% extends "base.html" %}
+
+{% block title %}
+create server
+{% endblock %}
+
+{% block content %}
+
 {{ record_date }}
+
+<div class="container">
+    <form method="post" class="my-3">
+        {{ form.csrf_token }}
+        {% include "form_errors.html" %}
+        <table class="table table-hover table-striped table-dark">
+            <thead>
+            <tr>
+                <th scope="col">Host</th>
+                <th scope="col">CPU Usage</th>
+                <th scope="col">Memory Usage</th>
+                <th scope="col">Storage Usage</th>
+            </tr>
+            </thead>
+            <tbody class="table-group-divider">
+                {% for server in servers %}
+            <tr>
+                <td>{{ server.host }}</td>
+                <td>
+                    <input type="integer" class="form-control" name="cpu" id="cpu">
+                </td>
+                <td>
+                    <input type="integer" class="form-control" name="memory" id="memory">
+                </td>
+                <td>
+                    <input type="integer" class="form-control" name="storage" id="storage">
+                </td>
+            </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <button type="submit" class="btn btn-primary">Confirm</button>
+        </div>
+    </form>
+</div>
+{% endblock %}
