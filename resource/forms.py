@@ -29,3 +29,9 @@ class ServerForm(FlaskForm):
 
 class DateForm(FlaskForm):
     date = DateField('Date', format='%Y%m%d', validators=[DataRequired()])
+
+
+class UsageForm(FlaskForm):
+    cpu_usage = IntegerField('CPU Usage', validators=[DataRequired()])
+    memory_usage = IntegerField('Memory Usage', validators=[DataRequired()])
+    storage_usage = IntegerField('Storage Usage', validators=[DataRequired()])
