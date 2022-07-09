@@ -6,9 +6,11 @@ create server
 
 {% block content %}
 
-{{ record_date }}
-
 <div class="container">
+    <h2>
+        Add Usage in {{ date[0] }}-{{ date[1] }}-{{ date[2] }} for {{ region }}
+    </h2>
+    <br>
     <form method="post" class="my-3">
         {{ form.csrf_token }}
         {% include "form_errors.html" %}
@@ -22,20 +24,20 @@ create server
             </tr>
             </thead>
             <tbody class="table-group-divider">
-                {% for server in servers %}
+            {% for server in servers %}
             <tr>
                 <td>{{ server.host }}</td>
                 <td>
-                    <input type="integer" class="form-control" name="cpu" id="cpu">
+                    <input type="integer" class="form-control" name="cpu_usage" id="cpu_usage">
                 </td>
                 <td>
-                    <input type="integer" class="form-control" name="memory" id="memory">
+                    <input type="integer" class="form-control" name="memory_usage" id="memory_usage">
                 </td>
                 <td>
-                    <input type="integer" class="form-control" name="storage" id="storage">
+                    <input type="integer" class="form-control" name="storage_usage" id="storage_usage">
                 </td>
             </tr>
-                {% endfor %}
+            {% endfor %}
             </tbody>
         </table>
         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
