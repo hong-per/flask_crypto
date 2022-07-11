@@ -11,6 +11,8 @@ bp = Blueprint('main', __name__, url_prefix='/')
 @bp.route('/')
 def index():
     regions = Region.query.all()
+
+    # Graph One
     df = pd.DataFrame({
         'Fruit': ['Apples', 'Oranges', 'Bananas', 'Apples', 'Oranges',
                   'Bananas'],
@@ -18,9 +20,22 @@ def index():
         'City': ['SF', 'SF', 'SF', 'Montreal', 'Montreal', 'Montreal']
     })
 
-    fig = px.bar(df, x='Fruit', y='Amount', color='City',
-                 barmode='group')
+    fig1 = px.bar(df, x='Fruit', y='Amount', color='City',
+                  barmode='group')
 
-    graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+    graph1JSON = json.dumps(fig1, cls=plotly.utils.PlotlyJSONEncoder)
 
-    return render_template('dashboard.html', regions=regions, graphJSON=graphJSON)
+    # Graph Two
+    df = pd.DataFrame({
+        'Fruit': ['Apples', 'Oranges', 'Bananas', 'Apples', 'Oranges',
+                  'Bananas'],
+        'Amount': [14, 11, 12, 12, 14, 15],
+        'City': ['SF', 'SF', 'SF', 'Montreal', 'Montreal', 'Montreal']
+    })
+
+    fig2 = px.bar(df, x='Fruit', y='Amount', color='City',
+                  barmode='group')
+
+    graph2JSON = json.dumps(fig2, cls=plotly.utils.PlotlyJSONEncoder)
+
+    return render_template('dashboard.html', regions=regions, graph1JSON=graph1JSON, graph2JSON=graph2JSON)
