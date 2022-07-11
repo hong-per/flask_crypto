@@ -5,5 +5,20 @@ Dashboard
 {% endblock %}
 
 {% block content %}
+<div class="container-fluid">
+    <div id="chart1">
+    </div>
+    <div id="chart2">
+    </div>
+</div>
 
+<!-- plotly CDN -->
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script>
+    var graph1 = {{ graph1JSON | safe }};
+    Plotly.plot("chart1", graph1, {})
+
+    var graph2 = {{ graph2JSON | safe }};
+    Plotly.plot("chart2", graph2, {})
+</script>
 {% endblock %}
