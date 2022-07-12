@@ -33,8 +33,11 @@ def index():
         'City': ['SF', 'SF', 'SF', 'Montreal', 'Montreal', 'Montreal']
     })
 
-    fig2 = px.bar(df, x='Fruit', y='Amount', color='City',
-                  barmode='group')
+    # fig2 = px.bar(df, x='Fruit', y='Amount', color='City',
+    #               barmode='group')
+    fig2 = px.scatter(df, x="Fruit", y="Amount", color="City",
+                      #   size="population", color="continent", hover_name="country",
+                      log_x=True, size_max=60)
 
     graph2JSON = json.dumps(fig2, cls=plotly.utils.PlotlyJSONEncoder)
 
