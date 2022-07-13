@@ -13,32 +13,40 @@ def index():
     regions = Region.query.all()
 
     # Graph One
-    df = pd.DataFrame({
-        'Fruit': ['Apples', 'Oranges', 'Bananas', 'Apples', 'Oranges',
-                  'Bananas'],
-        'Amount': [4, 1, 2, 2, 4, 5],
-        'City': ['SF', 'SF', 'SF', 'Montreal', 'Montreal', 'Montreal']
-    })
+    # df = pd.DataFrame({
+    #     'Fruit': ['Apples', 'Oranges', 'Bananas', 'Apples', 'Oranges',
+    #               'Bananas'],
+    #     'Amount': [4, 1, 2, 2, 4, 5],
+    #     'City': ['SF', 'SF', 'SF', 'Montreal', 'Montreal', 'Montreal']
+    # })
 
-    fig1 = px.bar(df, x='Fruit', y='Amount', color='City',
-                  barmode='group')
+    # fig1 = px.bar(df, x='Fruit', y='Amount', color='City',
+    #               barmode='group')
 
-    graph1JSON = json.dumps(fig1, cls=plotly.utils.PlotlyJSONEncoder)
+    # graph1JSON = json.dumps(fig1, cls=plotly.utils.PlotlyJSONEncoder)
 
+    east = Region.query.filter_by(name='east').first()
+    servers = east.servers
+    east_logs = [server.logs for server in servers]
+    first_logs = [log.record_date for log in east_logs[0]]
     # Graph Two
     df = pd.DataFrame({
-        'Fruit': ['Apples', 'Oranges', 'Bananas', 'Apples', 'Oranges',
-                  'Bananas'],
-        'Amount': [14, 11, 12, 12, 14, 15],
-        'City': ['SF', 'SF', 'SF', 'Montreal', 'Montreal', 'Montreal']
+        'usage': [80, 20],
+        'name': ['east_1_usage', 'east_1_remain']
     })
 
-    # fig2 = px.bar(df, x='Fruit', y='Amount', color='City',
-    #               barmode='group')
-    fig2 = px.scatter(df, x="Fruit", y="Amount", color="City",
-                      #   size="population", color="continent", hover_name="country",
-                      log_x=True, size_max=60)
+    fig2 = px.pie(df, values="usage", names="name", title="server usage")
 
     graph2JSON = json.dumps(fig2, cls=plotly.utils.PlotlyJSONEncoder)
+    
+    # Graph Three
+    df = pd.DataFrame({
+        'usage': [50, 50],
+        'name': ['west_1_usage', 'west_1_remain']
+    })
 
-    return render_template('dashboard.html', regions=regions, graph1JSON=graph1JSON, graph2JSON=graph2JSON)
+    fig3 = px.pie(df, values="usage", names="name", title="server usage")
+
+    graph3JSON = json.dumps(fig3, cls=plotly.utils.PlotlyJSONEncoder)
+
+    return render_template('dashboard.html', regions=regions, graph1JSON=graph1JSON, graph2JSON=graph2JSON, graph3JSON=graph3JSON)
