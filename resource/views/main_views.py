@@ -26,9 +26,9 @@ def index():
     # graph1JSON = json.dumps(fig1, cls=plotly.utils.PlotlyJSONEncoder)
 
     east = Region.query.filter_by(name='east').first()
-    servers = east.servers
-    east_logs = [server.logs for server in servers]
-    first_logs = [log.record_date for log in east_logs[0]]
+    east_logs = [server.logs for server in east.servers]
+    dates = [log.record_date for log in east_logs[0]]
+    recent_date = max(dates)
     # Graph Two
     df = pd.DataFrame({
         'usage': [80, 20],
@@ -38,7 +38,7 @@ def index():
     fig2 = px.pie(df, values="usage", names="name", title="server usage")
 
     graph2JSON = json.dumps(fig2, cls=plotly.utils.PlotlyJSONEncoder)
-    
+
     # Graph Three
     df = pd.DataFrame({
         'usage': [50, 50],
@@ -49,4 +49,4 @@ def index():
 
     graph3JSON = json.dumps(fig3, cls=plotly.utils.PlotlyJSONEncoder)
 
-    return render_template('dashboard.html', regions=regions, graph1JSON=graph1JSON, graph2JSON=graph2JSON, graph3JSON=graph3JSON)
+    return render_template('dashboard.html', regions=regions, graph2JSON=graph2JSON, graph3JSON=graph3JSON)
