@@ -4,6 +4,7 @@ import pandas as pd
 import json
 import plotly
 import plotly.express as px
+from functools import reduce
 
 bp = Blueprint('main', __name__, url_prefix='/')
 
@@ -12,41 +13,43 @@ bp = Blueprint('main', __name__, url_prefix='/')
 def index():
     regions = Region.query.all()
 
-    # Graph One
-    # df = pd.DataFrame({
-    #     'Fruit': ['Apples', 'Oranges', 'Bananas', 'Apples', 'Oranges',
-    #               'Bananas'],
-    #     'Amount': [4, 1, 2, 2, 4, 5],
-    #     'City': ['SF', 'SF', 'SF', 'Montreal', 'Montreal', 'Montreal']
-    # })
-
-    # fig1 = px.bar(df, x='Fruit', y='Amount', color='City',
-    #               barmode='group')
-
-    # graph1JSON = json.dumps(fig1, cls=plotly.utils.PlotlyJSONEncoder)
-
     east = Region.query.filter_by(name='east').first()
-    east_logs = [server.logs for server in east.servers]
-    dates = [log.record_date for log in east_logs[0]]
-    recent_date = max(dates)
-    # Graph Two
+    logs = sum([server.logs for server in east.servers], [])
+    recent_date = max(log.record_date for log in logs)
+    recent_logs = list(filter(lambda x: x.record_date == recent_date, logs))
+
+    cpu_usage_sum = reduce(
+        lambda x, y: x + y, [log.cpu_usage for log in recent_logs])
+    memory_usage_sum = reduce(
+        lambda x, y: x + y, [log.memory_usage for log in recent_logs])
+    storage_usage_sum = reduce(
+        lambda x, y: x + y, [log.cpu_usage for log in recent_logs])
+
+    cpu_sum = reduce(lambda x, y: x + y,
+                     [server.cpu for server in east.servers])
+    memory_sum = reduce(lambda x, y: x + y,
+                        [server.memory for server in east.servers])
+    storage_sum = reduce(lambda x, y: x + y,
+                         [server.storage for server in east.servers])
+
+    # CPU
     df = pd.DataFrame({
-        'usage': [80, 20],
-        'name': ['east_1_usage', 'east_1_remain']
+        'usage': [cpu_usage_sum, (cpu_sum - cpu_usage_sum)],
+        'name': ['east_cpu_usage', 'east_cpu_remain']
     })
 
-    fig2 = px.pie(df, values="usage", names="name", title="server usage")
+    cpu = px.pie(df, values="usage", names="name", title="cpu usage")
 
-    graph2JSON = json.dumps(fig2, cls=plotly.utils.PlotlyJSONEncoder)
+    CPU = json.dumps(cpu, cls=plotly.utils.PlotlyJSONEncoder)
 
-    # Graph Three
+    # Memory
     df = pd.DataFrame({
-        'usage': [50, 50],
-        'name': ['west_1_usage', 'west_1_remain']
+        'usage': [memory_usage_sum, (memory_sum - memory_usage_sum)],
+        'name': ['east_memory_usage', 'east_memory_remain']
     })
 
-    fig3 = px.pie(df, values="usage", names="name", title="server usage")
+    memory = px.pie(df, values="usage", names="name", title="memory usage")
 
-    graph3JSON = json.dumps(fig3, cls=plotly.utils.PlotlyJSONEncoder)
+    MEMORY = json.dumps(memory, cls=plotly.utils.PlotlyJSONEncoder)
 
-    return render_template('dashboard.html', regions=regions, graph2JSON=graph2JSON, graph3JSON=graph3JSON)
+    return render_template('dashboard.html', regions=regions, CPU=CPU, MEMORY=MEMORY)
