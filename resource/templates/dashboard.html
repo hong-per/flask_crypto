@@ -19,13 +19,11 @@ Dashboard
 <!-- plotly CDN -->
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 <script>
-    // var graph1 = {{ graph1JSON | safe }};
-    // Plotly.plot("chart1", graph1, {})
 
-    var graph2 = {{ graph2JSON | safe }};
-    Plotly.plot("chart2", graph2, {})
+    var cpu = {{ CPU | safe }};
+    Plotly.plot("chart2", cpu, {})
 
-    var graph3 = {{ graph3JSON | safe }};
-    Plotly.plot("chart3", graph3, {})
+    var memory = {{ MEMORY | safe }};
+    Plotly.plot("chart3", memory, {})
 </script>
 {% endblock %}
