@@ -5,25 +5,76 @@ Dashboard
 {% endblock %}
 
 {% block content %}
-<div class="container-fluid">
-    <div class="container">
-        <div class="row">
-          <div class="col-md-5", id="chart2">
-          </div>
-          <div class="col-md-5 ms-auto", id="chart3">
-          </div>
+
+<div class="container">
+    <div class="row">
+        <h2>{{ regions[0].name }}</h2>
+        <div class="col-6 col-md-4", id="pie1">
+        </div>
+        <div class="col-6 col-md-4", id="pie2">
+        </div>
+        <div class="col-6 col-md-4", id="pie3">
+        </div>
+    </div>
+    <div class="row">
+        <h2>{{ regions[1].name }}</h2>
+        <div class="col-6 col-md-4", id="pie4">
+        </div>
+        <div class="col-6 col-md-4", id="pie5">
+        </div>
+        <div class="col-6 col-md-4", id="pie6">
+        </div>
+    </div>
+    <div class="row">
+        <h2>{{ regions[2].name }}</h2>
+        <div class="col-6 col-md-4", id="pie7">
+        </div>
+        <div class="col-6 col-md-4", id="pie8">
+        </div>
+        <div class="col-6 col-md-4", id="pie9">
+        </div>
+    </div>
+    <div class="row">
+        <h2>{{ regions[3].name }}</h2>
+        <div class="col-6 col-md-4", id="pie10">
+        </div>
+        <div class="col-6 col-md-4", id="pie11">
+        </div>
+        <div class="col-6 col-md-4", id="pie12">
         </div>
     </div>
 </div>
 
+
 <!-- plotly CDN -->
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 <script>
+    var east_cpu = {{ east_cpu_pie | safe }};
+    Plotly.plot("pie1", east_cpu, {})
+    var east_memory = {{ east_memory_pie | safe }};
+    Plotly.plot("pie2", east_memory, {})
+    var east_storage = {{ east_storage_pie | safe }};
+    Plotly.plot("pie3", east_storage, {})
 
-    var cpu = {{ CPU | safe }};
-    Plotly.plot("chart2", cpu, {})
+    var west_cpu = {{ west_cpu_pie | safe }};
+    Plotly.plot("pie4", west_cpu, {})
+    var west_memory = {{ west_memory_pie | safe }};
+    Plotly.plot("pie5", west_memory, {})
+    var west_storage = {{ west_storage_pie | safe }};
+    Plotly.plot("pie6", west_storage, {})
 
-    var memory = {{ MEMORY | safe }};
-    Plotly.plot("chart3", memory, {})
+    var south_cpu = {{ south_cpu_pie | safe }};
+    Plotly.plot("pie7", south_cpu, {})
+    var south_memory = {{ south_memory_pie | safe }};
+    Plotly.plot("pie8", south_memory, {})
+    var south_storage = {{ south_storage_pie | safe }};
+    Plotly.plot("pie9", south_storage, {})
+
+    var north_cpu = {{ north_cpu_pie | safe }};
+    Plotly.plot("pie10", north_cpu, {})
+    var north_memory = {{ north_memory_pie | safe }};
+    Plotly.plot("pie11", north_memory, {})
+    var north_storage = {{ north_storage_pie | safe }};
+    Plotly.plot("pie12", north_storage, {})
 </script>
 {% endblock %}
