@@ -13,65 +13,27 @@ bp = Blueprint('main', __name__, url_prefix='/')
 def index():
     regions = Region.query.all()
 
-    east_cpu_pie = json.dumps(
-        get_cpu_pie_by_region('east'),
-        cls=plotly.utils.PlotlyJSONEncoder
-    )
-    east_memory_pie = json.dumps(
-        get_memory_pie_by_region('east'),
-        cls=plotly.utils.PlotlyJSONEncoder
-    )
-    east_storage_pie = json.dumps(
-        get_storage_pie_by_region('east'),
-        cls=plotly.utils.PlotlyJSONEncoder
-    )
+    pie = []
+    script_list = []
 
-    west_cpu_pie = json.dumps(
-        get_cpu_pie_by_region('west'),
-        cls=plotly.utils.PlotlyJSONEncoder
-    )
-    west_memory_pie = json.dumps(
-        get_memory_pie_by_region('west'),
-        cls=plotly.utils.PlotlyJSONEncoder
-    )
-    west_storage_pie = json.dumps(
-        get_storage_pie_by_region('west'),
-        cls=plotly.utils.PlotlyJSONEncoder
-    )
+    for region in regions:
+        pie.append(json.dumps(
+            get_cpu_pie_by_region(region.name),
+            cls=plotly.utils.PlotlyJSONEncoder
+        ))
+        pie.append(json.dumps(
+            get_memory_pie_by_region(region.name),
+            cls=plotly.utils.PlotlyJSONEncoder
+        ))
+        pie.append(json.dumps(
+            get_storage_pie_by_region(region.name),
+            cls=plotly.utils.PlotlyJSONEncoder
+        ))
+        script_list.append(f"{region.name}-1")
+        script_list.append(f"{region.name}-2")
+        script_list.append(f"{region.name}-3")
 
-    south_cpu_pie = json.dumps(
-        get_cpu_pie_by_region('south'),
-        cls=plotly.utils.PlotlyJSONEncoder
-    )
-    south_memory_pie = json.dumps(
-        get_memory_pie_by_region('south'),
-        cls=plotly.utils.PlotlyJSONEncoder
-    )
-    south_storage_pie = json.dumps(
-        get_storage_pie_by_region('south'),
-        cls=plotly.utils.PlotlyJSONEncoder
-    )
-
-    north_cpu_pie = json.dumps(
-        get_cpu_pie_by_region('north'),
-        cls=plotly.utils.PlotlyJSONEncoder
-    )
-    north_memory_pie = json.dumps(
-        get_memory_pie_by_region('north'),
-        cls=plotly.utils.PlotlyJSONEncoder
-    )
-    north_storage_pie = json.dumps(
-        get_storage_pie_by_region('north'),
-        cls=plotly.utils.PlotlyJSONEncoder
-    )
-
-    return render_template(
-        'dashboard.html', regions=regions,
-        east_cpu_pie=east_cpu_pie, east_memory_pie=east_memory_pie, east_storage_pie=east_storage_pie,
-        west_cpu_pie=west_cpu_pie, west_memory_pie=west_memory_pie, west_storage_pie=west_storage_pie,
-        south_cpu_pie=south_cpu_pie, south_memory_pie=south_memory_pie, south_storage_pie=south_storage_pie,
-        north_cpu_pie=north_cpu_pie, north_memory_pie=north_memory_pie, north_storage_pie=north_storage_pie
-    )
+    return render_template('dashboard.html', regions=regions, pie=pie, script_list=script_list)
 
 
 def get_recent_logs_by_region(region):
