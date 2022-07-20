@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}
+Dashboard
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    {% for region in regions %}
+    <div class="row">
+        <h2>{{ region.name }}</h2>
+        <div class="col-6 col-md-4", id="{{ region.name }}-1">
+        </div>
+        <div class="col-6 col-md-4", id="{{ region.name }}-2">
+        </div>
+        <div class="col-6 col-md-4", id="{{ region.name }}-3">
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+
+<!-- plotly CDN -->
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script>
+    // TODO: loop the graphs in Javascript
+    // for (i=0; i < pie.length; i++) {
+    //     var graph = {{ pie[i] | safe }};
+    //     Plotly.plot(script_list[i], graph, {});
+    // }
+
+    var east_cpu = {{ pie[0] | safe }};
+    Plotly.plot("east-1", east_cpu, {})
+    var east_memory = {{ pie[1] | safe }};
+    Plotly.plot("east-2", east_memory, {})
+    var east_storage = {{ pie[2] | safe }};
+    Plotly.plot("east-3", east_storage, {})
+
+    var west_cpu = {{ pie[3] | safe }};
+    Plotly.plot("west-1", west_cpu, {})
+    var west_memory = {{ pie[4] | safe }};
+    Plotly.plot("west-2", west_memory, {})
+    var west_storage = {{ pie[5] | safe }};
+    Plotly.plot("west-3", west_storage, {})
+
+    var south_cpu = {{ pie[6] | safe }};
+    Plotly.plot("south-1", south_cpu, {})
+    var south_memory = {{ pie[7] | safe }};
+    Plotly.plot("south-2", south_memory, {})
+    var south_storage = {{ pie[8] | safe }};
+    Plotly.plot("south-3", south_storage, {})
+
+    var north_cpu = {{ pie[9] | safe }};
+    Plotly.plot("north-1", north_cpu, {})
+    var north_memory = {{ pie[10] | safe }};
+    Plotly.plot("north-2", north_memory, {})
+    var north_storage = {{ pie[11] | safe }};
+    Plotly.plot("north-3", north_storage, {})
+</script>
+{% endblock %}
