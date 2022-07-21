@@ -23,38 +23,31 @@ Dashboard
 <!-- plotly CDN -->
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 <script>
+    var id_list = [
+        "east-1", "east-2", "east-3",
+        "west-1", "west-2", "west-3",
+        "south-1", "south-2", "south-3",
+        "north-1", "north-2", "north-3"
+    ]
     // TODO: loop the graphs in Javascript
-    // for (i=0; i < pie.length; i++) {
-    //     var graph = {{ pie[i] | safe }};
-    //     Plotly.plot(script_list[i], graph, {});
+    // for (i=0;i<id_list.length;i++) {
+    //     Plotly.plot(id_list[i], {{ pie[i] | safe }}, {})
     // }
 
-    var east_cpu = {{ pie[0] | safe }};
-    Plotly.plot("east-1", east_cpu, {})
-    var east_memory = {{ pie[1] | safe }};
-    Plotly.plot("east-2", east_memory, {})
-    var east_storage = {{ pie[2] | safe }};
-    Plotly.plot("east-3", east_storage, {})
+    Plotly.plot(id_list[0], {{ pie[0] | safe }}, {})
+    Plotly.plot(id_list[1], {{ pie[1] | safe }}, {})
+    Plotly.plot(id_list[2], {{ pie[2] | safe }}, {})
 
-    var west_cpu = {{ pie[3] | safe }};
-    Plotly.plot("west-1", west_cpu, {})
-    var west_memory = {{ pie[4] | safe }};
-    Plotly.plot("west-2", west_memory, {})
-    var west_storage = {{ pie[5] | safe }};
-    Plotly.plot("west-3", west_storage, {})
+    Plotly.plot(id_list[3], {{ pie[3] | safe }}, {})
+    Plotly.plot(id_list[4], {{ pie[4] | safe }}, {})
+    Plotly.plot(id_list[5], {{ pie[5] | safe }}, {})
 
-    var south_cpu = {{ pie[6] | safe }};
-    Plotly.plot("south-1", south_cpu, {})
-    var south_memory = {{ pie[7] | safe }};
-    Plotly.plot("south-2", south_memory, {})
-    var south_storage = {{ pie[8] | safe }};
-    Plotly.plot("south-3", south_storage, {})
+    Plotly.plot(id_list[6], {{ pie[6] | safe }}, {})
+    Plotly.plot(id_list[7], {{ pie[7] | safe }}, {})
+    Plotly.plot(id_list[8], {{ pie[8] | safe }}, {})
 
-    var north_cpu = {{ pie[9] | safe }};
-    Plotly.plot("north-1", north_cpu, {})
-    var north_memory = {{ pie[10] | safe }};
-    Plotly.plot("north-2", north_memory, {})
-    var north_storage = {{ pie[11] | safe }};
-    Plotly.plot("north-3", north_storage, {})
+    Plotly.plot(id_list[9], {{ pie[9] | safe }}, {})
+    Plotly.plot(id_list[10], {{ pie[10] | safe }}, {})
+    Plotly.plot(id_list[11], {{ pie[11] | safe }}, {})
 </script>
 {% endblock %}
