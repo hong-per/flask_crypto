@@ -14,7 +14,6 @@ def index():
     regions = Region.query.all()
 
     pie = []
-    script_list = []
 
     for region in regions:
         pie.append(json.dumps(
@@ -29,11 +28,8 @@ def index():
             get_storage_pie_by_region(region.name),
             cls=plotly.utils.PlotlyJSONEncoder
         ))
-        script_list.append(f"{region.name}-1")
-        script_list.append(f"{region.name}-2")
-        script_list.append(f"{region.name}-3")
 
-    return render_template('dashboard.html', regions=regions, pie=pie, script_list=script_list)
+    return render_template('dashboard.html', regions=regions, pie=pie)
 
 
 def get_recent_logs_by_region(region):
