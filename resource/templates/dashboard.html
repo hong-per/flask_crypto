@@ -29,25 +29,16 @@ Dashboard
         "south-1", "south-2", "south-3",
         "north-1", "north-2", "north-3"
     ]
-    // TODO: loop the graphs in Javascript
-    // for (i=0;i<id_list.length;i++) {
-    //     Plotly.plot(id_list[i], {{ pie[i] | safe }}, {})
-    // }
 
-    Plotly.plot(id_list[0], {{ pie[0] | safe }}, {})
-    Plotly.plot(id_list[1], {{ pie[1] | safe }}, {})
-    Plotly.plot(id_list[2], {{ pie[2] | safe }}, {})
+    var graph = [
+        {{ pie[0] | safe }}, {{ pie[1] | safe }}, {{ pie[2] | safe }},
+        {{ pie[3] | safe }}, {{ pie[4] | safe }}, {{ pie[5] | safe }},
+        {{ pie[6] | safe }}, {{ pie[7] | safe }}, {{ pie[8] | safe }},
+        {{ pie[9] | safe }}, {{ pie[10] | safe }}, {{ pie[11] | safe }}
+    ]
 
-    Plotly.plot(id_list[3], {{ pie[3] | safe }}, {})
-    Plotly.plot(id_list[4], {{ pie[4] | safe }}, {})
-    Plotly.plot(id_list[5], {{ pie[5] | safe }}, {})
-
-    Plotly.plot(id_list[6], {{ pie[6] | safe }}, {})
-    Plotly.plot(id_list[7], {{ pie[7] | safe }}, {})
-    Plotly.plot(id_list[8], {{ pie[8] | safe }}, {})
-
-    Plotly.plot(id_list[9], {{ pie[9] | safe }}, {})
-    Plotly.plot(id_list[10], {{ pie[10] | safe }}, {})
-    Plotly.plot(id_list[11], {{ pie[11] | safe }}, {})
+    for (i=0; i < id_list.length; i++) {
+        Plotly.plot(id_list[i], graph[i], {})
+    }
 </script>
 {% endblock %}
