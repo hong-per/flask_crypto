@@ -8,7 +8,11 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-6 col-md-4", id="line">
+        <div id="cpu_line">
+        </div>
+        <div id="memory_line">
+        </div>
+        <div id="storage_line">
         </div>
     </div>
 </div>
@@ -16,7 +20,9 @@
 <!-- plotly CDN -->
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 <script>
-    Plotly.plot("line", {{ graph | safe }}, {})
+    Plotly.plot("cpu_line", {{ line['cpu'] | safe }}, {})
+    Plotly.plot("memory_line", {{ line['memory'] | safe }}, {})
+    Plotly.plot("storage_line", {{ line['storage'] | safe }}, {})
 
 </script>
 {% endblock %}
