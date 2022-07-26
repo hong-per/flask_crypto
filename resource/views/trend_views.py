@@ -16,12 +16,9 @@ def main(region_id):
     region = Region.query.get_or_404(region_id)
 
     line = {
-        'cpu': json.dumps(get_cpu_usages_by_dates(region),
-                          cls=plotly.utils.PlotlyJSONEncoder),
-        'memory': json.dumps(get_memory_usages_by_dates(region),
-                             cls=plotly.utils.PlotlyJSONEncoder),
-        'storage': json.dumps(get_storage_usages_by_dates(region),
-                              cls=plotly.utils.PlotlyJSONEncoder)
+        'cpu': json.dumps(get_cpu_usages_by_dates(region), cls=plotly.utils.PlotlyJSONEncoder),
+        'memory': json.dumps(get_memory_usages_by_dates(region), cls=plotly.utils.PlotlyJSONEncoder),
+        'storage': json.dumps(get_storage_usages_by_dates(region), cls=plotly.utils.PlotlyJSONEncoder)
     }
 
     return render_template('trend/trend.html', regions=regions, region=region, line=line)
@@ -51,7 +48,7 @@ def get_cpu_usages_by_dates(region):
         'date': dates,
         'usage': cpu_usages
     })
-    return px.line(df, x="date", y="usage", title=f"cpu usage trend by date in {region.name}")
+    return px.line(df, x="date", y="usage", title=f"cpu usage trend in {region.name}")
 
 
 def get_memory_usages_by_dates(region):
@@ -69,7 +66,7 @@ def get_memory_usages_by_dates(region):
         'date': dates,
         'usage': memory_usages
     })
-    return px.line(df, x="date", y="usage", title=f"memory usage trend by date in {region.name}")
+    return px.line(df, x="date", y="usage", title=f"memory usage trend in {region.name}")
 
 
 def get_storage_usages_by_dates(region):
@@ -87,4 +84,4 @@ def get_storage_usages_by_dates(region):
         'date': dates,
         'usage': storage_usages
     })
-    return px.line(df, x="date", y="usage", title=f"storage usage trend by date in {region.name}")
+    return px.line(df, x="date", y="usage", title=f"storage usage trend in {region.name}")
