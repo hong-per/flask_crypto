@@ -12,24 +12,18 @@ bp = Blueprint('main', __name__, url_prefix='/')
 @bp.route('/')
 def index():
     regions = Region.query.all()
+    usage = {}
 
-    pie = []
+    for region in [region.name for region in regions]:
+        usage[region] = {}
+        usage[region]['cpu'] = json.dumps(get_cpu_pie_by_region(
+            region), cls=plotly.utils.PlotlyJSONEncoder)
+        usage[region]['memory'] = json.dumps(get_memory_pie_by_region(
+            region), cls=plotly.utils.PlotlyJSONEncoder)
+        usage[region]['storage'] = json.dumps(
+            get_storage_pie_by_region(region), cls=plotly.utils.PlotlyJSONEncoder)
 
-    for region in regions:
-        pie.append(json.dumps(
-            get_cpu_pie_by_region(region.name),
-            cls=plotly.utils.PlotlyJSONEncoder
-        ))
-        pie.append(json.dumps(
-            get_memory_pie_by_region(region.name),
-            cls=plotly.utils.PlotlyJSONEncoder
-        ))
-        pie.append(json.dumps(
-            get_storage_pie_by_region(region.name),
-            cls=plotly.utils.PlotlyJSONEncoder
-        ))
-
-    return render_template('dashboard.html', regions=regions, pie=pie)
+    return render_template('dashboard.html', regions=regions, usage=usage)
 
 
 def get_recent_logs_by_region(region):
