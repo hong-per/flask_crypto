@@ -9,11 +9,11 @@ Dashboard
     {% for region in regions %}
     <div class="row">
         <h2>{{ region.name }}</h2>
-        <div class="col-6 col-md-4", id="{{ region.name }}-1">
+        <div class="col-6 col-md-4", id="{{ region.name }}-cpu">
         </div>
-        <div class="col-6 col-md-4", id="{{ region.name }}-2">
+        <div class="col-6 col-md-4", id="{{ region.name }}-memory">
         </div>
-        <div class="col-6 col-md-4", id="{{ region.name }}-3">
+        <div class="col-6 col-md-4", id="{{ region.name }}-storage">
         </div>
     </div>
     {% endfor %}
@@ -24,17 +24,17 @@ Dashboard
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 <script>
     var id_list = [
-        "east-1", "east-2", "east-3",
-        "west-1", "west-2", "west-3",
-        "south-1", "south-2", "south-3",
-        "north-1", "north-2", "north-3"
+        "east-cpu", "east-memory", "east-storage",
+        "west-cpu", "west-memory", "west-storage",
+        "south-cpu", "south-memory", "south-storage",
+        "north-cpu", "north-memory", "north-storage"
     ]
 
     var graph = [
-        {{ pie[0] | safe }}, {{ pie[1] | safe }}, {{ pie[2] | safe }},
-        {{ pie[3] | safe }}, {{ pie[4] | safe }}, {{ pie[5] | safe }},
-        {{ pie[6] | safe }}, {{ pie[7] | safe }}, {{ pie[8] | safe }},
-        {{ pie[9] | safe }}, {{ pie[10] | safe }}, {{ pie[11] | safe }}
+        {{ usage['east']['cpu'] | safe }}, {{ usage['east']['memory'] | safe }}, {{ usage['east']['storage'] | safe }},
+        {{ usage['west']['cpu'] | safe }}, {{ usage['west']['memory'] | safe }}, {{ usage['west']['storage'] | safe }},
+        {{ usage['south']['cpu'] | safe }}, {{ usage['south']['memory'] | safe }}, {{ usage['south']['storage'] | safe }},
+        {{ usage['north']['cpu'] | safe }}, {{ usage['north']['memory'] | safe }}, {{ usage['north']['storage'] | safe }}
     ]
 
     for (i=0; i < id_list.length; i++) {
