@@ -1,4 +1,5 @@
 from resource import db
+from functools import reduce
 
 
 class User(db.Model):
@@ -26,6 +27,67 @@ class Region(db.Model):
 
     def __repr__(self):
         return f'Region {self.name}'
+
+    # For Dashboard graph
+    def recent_logs(self):
+        logs = sum([server.logs for server in self.servers], [])
+        recent_date = max(log.record_date for log in logs)
+        return list(filter(lambda x: x.record_date == recent_date, logs))
+
+    def cpu_usage(self):
+        return reduce(lambda x, y: x + y, [log.cpu_usage for log in self.recent_logs()])
+
+    def total_cpu(self):
+        return reduce(lambda x, y: x + y, [server.cpu for server in self.servers])
+
+    def memory_usage(self):
+        return reduce(lambda x, y: x + y, [log.memory_usage for log in self.recent_logs()])
+
+    def total_memory(self):
+        return reduce(lambda x, y: x + y, [server.memory for server in self.servers])
+
+    def storage_usage(self):
+        return reduce(lambda x, y: x + y, [log.storage_usage for log in self.recent_logs()])
+
+    def total_storage(self):
+        return reduce(lambda x, y: x + y, [server.storage for server in self.servers])
+
+    # For Trend graph
+    def logs(self):
+        return sum([server.logs for server in self.servers], [])
+
+    def dates(self):
+        return sorted(list(set([log.record_date for log in self.logs()])))
+
+    def cpu_usage_by_date(self):
+        cpu_usages = []
+        for date in self.dates():
+            date_logs = list(
+                filter(lambda x: x.record_date == date, self.logs()))
+            cpu_usages.append(
+                reduce(lambda x, y: x + y, [log.cpu_usage for log in date_logs]))
+
+        return cpu_usages
+
+    def memory_usage_by_date(self):
+        memory_usages = []
+        for date in self.dates():
+            date_logs = list(
+                filter(lambda x: x.record_date == date, self.logs()))
+            memory_usages.append(
+                reduce(lambda x, y: x + y, [log.memory_usage for log in date_logs]))
+
+        return memory_usages
+
+    def storage_usage_by_date(self):
+        storage_usages = []
+        for date in self.dates():
+            date_logs = list(
+                filter(lambda x: x.record_date == date, self.logs()))
+            storage_usages.append(
+                reduce(lambda x, y: x + y, [log.storage_usage for log in date_logs]))
+
+        return storage_usages
 
 
 class Server(db.Model):
