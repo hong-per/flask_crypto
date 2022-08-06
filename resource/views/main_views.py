@@ -14,37 +14,21 @@ def index():
     regions = Region.query.all()
     usage = {}
 
-    for region in [region.name for region in regions]:
-        usage[region] = {}
-        usage[region]['cpu'] = json.dumps(get_cpu_pie_by_region(
+    for region in regions:
+        usage[region.name] = {}
+        usage[region.name]['cpu'] = json.dumps(get_cpu_pie_by_region(
             region), cls=plotly.utils.PlotlyJSONEncoder)
-        usage[region]['memory'] = json.dumps(get_memory_pie_by_region(
+        usage[region.name]['memory'] = json.dumps(get_memory_pie_by_region(
             region), cls=plotly.utils.PlotlyJSONEncoder)
-        usage[region]['storage'] = json.dumps(
+        usage[region.name]['storage'] = json.dumps(
             get_storage_pie_by_region(region), cls=plotly.utils.PlotlyJSONEncoder)
 
     return render_template('dashboard.html', regions=regions, usage=usage)
 
 
-def get_recent_logs_by_region(region):
-    target = Region.query.filter_by(name=region).first()
-    logs = sum([server.logs for server in target.servers], [])
-    recent_date = max(log.record_date for log in logs)
-    return list(filter(lambda x: x.record_date == recent_date, logs))
-
-
 def get_cpu_pie_by_region(region):
-    target = Region.query.filter_by(name=region).first()
-    recent_logs = get_recent_logs_by_region(region)
-
-    cpu_usage = reduce(lambda x, y: x + y,
-                       [log.cpu_usage for log in recent_logs])
-
-    total_cpu = reduce(lambda x, y: x + y,
-                       [server.cpu for server in target.servers])
-
     df = pd.DataFrame({
-        'usage': [cpu_usage, (total_cpu - cpu_usage)],
+        'usage': [region.cpu_usage(), (region.total_cpu() - region.cpu_usage())],
         'name': [f"{region}_cpu_usage", f"{region}_cpu_remain"]
     })
 
@@ -52,17 +36,8 @@ def get_cpu_pie_by_region(region):
 
 
 def get_memory_pie_by_region(region):
-    target = Region.query.filter_by(name=region).first()
-    recent_logs = get_recent_logs_by_region(region)
-
-    memory_usage = reduce(lambda x, y: x + y,
-                          [log.memory_usage for log in recent_logs])
-
-    total_memory = reduce(lambda x, y: x + y,
-                          [server.memory for server in target.servers])
-
     df = pd.DataFrame({
-        'usage': [memory_usage, (total_memory - memory_usage)],
+        'usage': [region.memory_usage(), (region.total_memory() - region.memory_usage())],
         'name': [f"{region}_memory_usage", f"{region}_memory_remain"]
     })
 
@@ -70,17 +45,8 @@ def get_memory_pie_by_region(region):
 
 
 def get_storage_pie_by_region(region):
-    target = Region.query.filter_by(name=region).first()
-    recent_logs = get_recent_logs_by_region(region)
-
-    storage_usage = reduce(lambda x, y: x + y,
-                           [log.storage_usage for log in recent_logs])
-
-    total_storage = reduce(lambda x, y: x + y,
-                           [server.storage for server in target.servers])
-
     df = pd.DataFrame({
-        'usage': [storage_usage, (total_storage - storage_usage)],
+        'usage': [region.storage_usage(), (region.total_storage() - region.storage_usage())],
         'name': [f"{region}_storage_usage", f"{region}_storage_remain"]
     })
 
