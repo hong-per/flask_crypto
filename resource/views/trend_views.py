@@ -4,8 +4,6 @@ import pandas as pd
 import json
 import plotly
 import plotly.express as px
-from functools import reduce
-from datetime import datetime
 
 bp = Blueprint('trend', __name__, url_prefix='/trend')
 
