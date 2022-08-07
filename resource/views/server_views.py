@@ -1,7 +1,7 @@
 from flask import Blueprint, url_for, render_template, flash, request
 from werkzeug.utils import redirect
 from resource import db
-from resource.models import Region, Server, Usage
+from resource.models import Region, Server
 from resource.forms import ServerForm
 
 bp = Blueprint('server', __name__, url_prefix='/server')
