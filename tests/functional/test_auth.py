@@ -1,9 +1,3 @@
-from resource import create_app
-from tests.conftest import client
-from flask import session
-import json
-import config
-
 local_url = "http://127.0.0.1:5000"
 
 
