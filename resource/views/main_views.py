@@ -4,7 +4,6 @@ import pandas as pd
 import json
 import plotly
 import plotly.express as px
-from functools import reduce
 
 bp = Blueprint('main', __name__, url_prefix='/')
 
