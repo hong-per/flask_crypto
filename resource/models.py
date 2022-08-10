@@ -28,6 +28,9 @@ class Region(db.Model):
     def __repr__(self):
         return f'Region {self.name}'
 
+    def __init__(self, name: str):
+        self.name = name
+
     # For Dashboard graph
     def recent_logs(self):
         logs = sum([server.logs for server in self.servers], [])
@@ -106,6 +109,13 @@ class Server(db.Model):
     def __repr__(self):
         return f'Server {self.host}'
 
+    def __init__(self, region_id: int, host: str, cpu: int, memory: int, storage: int):
+        self.region_id = region_id
+        self.host = host
+        self.cpu = cpu
+        self.memory = memory
+        self.storage = storage
+
 
 class Usage(db.Model):
     __tablename__ = 'usage'
@@ -123,6 +133,14 @@ class Usage(db.Model):
 
     def __repr__(self):
         return f'Usage {self.server} in {self.record_date}'
+
+    def __init__(self, server_id: int, cpu_usage: int, memory_usage: int, storage_usage: int, note: str, record_date: str):
+        self.server_id = server_id
+        self.cpu_usage = cpu_usage
+        self.memory_usage = memory_usage
+        self.storage_usage = storage_usage
+        self.note = note
+        self.record_date = record_date
 
 # use date format to save record date
 # ex) date(2022, 6, 1)
